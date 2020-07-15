@@ -54,10 +54,23 @@ public abstract class AbstractBenchmark {
 	}
 
 	@Benchmark
-	public Object takePut(Control control) {
+	public Object takeWorkPut(Control control) {
 		Object result = queue.poll();
 		// ignore null result, put will simulate creating new element
 		put(control);
+		return result;
+	}
+
+	@Benchmark
+	public Object takeBlockPut(Control control) throws InterruptedException {
+		Object result = queue.poll();
+		// ignore null result, put will simulate creating new element
+		consumeCPU((long) (DELAY_PRODUCER * 0.1));
+		// simulates blocking on socket
+		Thread.sleep(1);
+		consumeCPU((long) (DELAY_PRODUCER * 0.1));
+		while (!queue.offer(element) && !control.stopMeasurement) {
+		}
 		return result;
 	}
 
