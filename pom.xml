@@ -78,7 +78,7 @@
 		<jmh.version>1.23</jmh.version>
 
 		<!-- Java source/target to use for compilation. -->
-		<javac.target>1.9</javac.target>
+		<javac.target>1.8</javac.target>
 
 		<!-- Name of the benchmark Uber-JAR to generate. -->
 		<uberjar.name>benchmarks</uberjar.name>
@@ -92,8 +92,8 @@
 				<version>3.8.0</version>
 				<!-- <version>3.5.1</version> -->
 				<configuration>
-					<source>1.9</source>
-					<target>1.9</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
