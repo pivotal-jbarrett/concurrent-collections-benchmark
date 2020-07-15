@@ -55,7 +55,8 @@ public abstract class AbstractBenchmark {
 
 	@Benchmark
 	public Object takePut(Control control) {
-		Object result = take(control);
+		Object result = queue.poll();
+		// ignore null result, put will simulate creating new element
 		put(control);
 		return result;
 	}
