@@ -1,5 +1,7 @@
 package com.vmlens.concurrent.queue;
 
+import static org.openjdk.jmh.infra.Blackhole.consumeCPU;
+
 import java.util.Queue;
 
 import org.openjdk.jmh.annotations.Benchmark;
@@ -32,16 +34,17 @@ public abstract class AbstractBenchmark {
 	@Benchmark
 	@Group("g")
 	@GroupThreads(1)
-	public void put(Blackhole bh, Control control) {
-		bh.consumeCPU(DELAY_PRODUCER);
+	public void put(Control control) {
+		consumeCPU(DELAY_PRODUCER);
 		while (!queue.offer(element) && !control.stopMeasurement) {
 		}
 
 	}
+
 	@Benchmark
 	@Group("g")
 	@GroupThreads(1)
-	public Object take(Blackhole bh, Control control) {
+	public Object take(Control control) {
 		Object result = queue.poll();
 		while (result == null && !control.stopMeasurement) {
 			result = queue.poll();
@@ -49,4 +52,12 @@ public abstract class AbstractBenchmark {
 		return result;
 
 	}
+
+	@Benchmark
+	public Object takePut(Control control) {
+		Object result = take(control);
+		put(control);
+		return result;
+	}
+
 }
